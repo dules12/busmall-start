@@ -4,19 +4,30 @@
 
 Product.myProducts = [];
 
-Product.imgElement = document.getElementById('ad-pic');
-Product.imgElementTwo = document.getElementById('ad-pictwo');
-Product.imgElementThree = document.getElementById('ad-picthree');
+Product.totalClicks = 0
 
-function Product(filepath) {
+Product.lastDisplayed = [];
+
+Product.names = [];
+
+Product.totalVotes = [];
+
+//Product.imgElement = document.getElementById('ad-pic');
+//Product.imgElementTwo = document.getElementById('ad-pictwo');
+//Product.imgElementThree = document.getElementById('ad-picthree');
+
+function Product(name, filepath) {
+  this.name = name;
   this.filepath = filepath;
-  Product.myProducts.push(this);
-}
+  this.votes = 0;
+  this.timeDisplayed = 0;
+  Products.myProducts.push(this.name);
+  }
 
-new Product('img/bag.jpg');
-new Product('img/banana.jpg');
-new Product('img/bathroom.jpg');
-new Product('img/boots.jpg');
+new Product('bad','img/bag.jpg');
+new Product('banana','img/banana.jpg');
+new Product('bathroom','img/bathroom.jpg');
+new Product('boots','img/boots.jpg');
 new Product('img/breakfast.jpg');
 new Product('img/bubblegum.jpg');
 new Product('img/chair.jpg');
@@ -60,6 +71,10 @@ Product.imgElementTwo.addEventListener('click', Product.randomProductTwo);
 Product.imgElementThree.addEventListener('click', Product.randomProductThree);
 
 
+
+
+
 Product.randomProduct();
 Product.randomProductTwo();
 Product.randomProductThree();
+
