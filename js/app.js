@@ -20,11 +20,14 @@ function Product(name, filepath) {
   //inputs here
   this.name = name;
   this.filepath = filepath;
+  //setting votes and times displayed to 0 at beginning
   this.votes = 0;
   this.timesDisplayed = 0;
+
   Product.myProducts.push(this);
 }
 
+//New products createe with name and filepath
 new Product('bag','img/bag.jpg');
 new Product('banana','img/banana.jpg');
 new Product('bathroom','img/bathroom.jpg');
@@ -46,23 +49,27 @@ new Product('usb','img/usb.jpg');
 new Product('water-can','img/water-can.jpg');
 new Product('wine-glass','img/wine-glass.jpg');
 
+//connecting products in js to the doc identifiers
 Product.leftEl = document.getElementById('left');
 Product.centerEl = document.getElementById('center');
 Product.rightEl = document.getElementById('right');
 
+//function to select a random image from the total image options
 Product.randomProduct = function() {
   do {
     var randomLeft = Math.floor(Math.random() * Product.myProducts.length);
     var randomCenter = Math.floor(Math.random() * Product.myProducts.length);
     var randomRight = Math.floor(Math.random() * Product.myProducts.length);
 
+    //excludes an image to be chosen that was just selected or is a repeat of any others on the page
   } while (randomLeft === randomCenter || randomLeft === randomRight || randomCenter === randomRight
     || Product.lastDisplayed.includes(randomLeft) || Product.lastDisplayed.includes(randomCenter) || Product.lastDisplayed.includes(randomRight));
 
+  //attaching random left, center and right to last displayed
   Product.lastDisplayed[0] = randomLeft;
   Product.lastDisplayed[1] = randomCenter;
   Product.lastDisplayed[2] = randomRight;
-
+  //attaching filepaths and names to the left, cener and right images
   Product.leftEl.src = Product.myProducts[randomLeft].filepath;
   Product.leftEl.alt = Product.myProducts[randomLeft].name;
   console.log(Product.leftEl.src);
@@ -75,19 +82,28 @@ Product.randomProduct = function() {
   Product.rightEl.alt = Product.myProducts[randomRight].name;
   console.log(Product.rightEl);
 
-  Product.myProducts[randomLeft].timesDisplayed = Product.myProducts[randomLeft].timesDisplayed + 1;
+  //times displayed within Products.myProducts is increased by one for each image every times it appears.
+  Product.myProducts[randomLeft].timesDisplayed++;
   Product.myProducts[randomCenter].timesDisplayed++;
   Product.myProducts[randomRight].timesDisplayed++;
+console.log(Product.myProducts[randomLeft]);
+console.log(Product.myProducts[randomCenter]);
+console.log(Product.myProducts[randomRight]);
 };
 
+
+
+//The data in the list displayed at the end is attached to the doc with the following message
 Product.showList = function() {
   for(var i in Product.myProducts) {
     var liEl = document.createElement('li');
-    liEl.textContent = `${Product.myProducts[i].name} 'has' ${Product.myProducts[i].votes} 'votes and was displayed' ${Product.myProducts[i].timesDisplayed} times.`;
-    Product.ulEl.appendchild(liEl);
+    liEl.textContent = `${Product.myProducts[i].name} has ${Product.myProducts[i].votes} votes and was displayed ${Product.myProducts[i].timesDisplayed} times.`;
+    Product.ulEl.appendChild(liEl);
+    console.log(Product.showList);
   }
 };
 
+//number of total votes is a function of the number of times a product appears and is voted on
 Product.updateVotes = function() {
   for(var i in Product.myProducts) {
     Product.totalVotes[i] = Product.myProducts[i].votes;
@@ -96,20 +112,25 @@ Product.updateVotes = function() {
   }
 };
 
+//handleClick is created within Product as a function of total clicks as they increase
 Product.handleClick = function(event) {
   Product.totalClicks++;
   console.log(Product.totalClicks);
 
+  //If the specific product is clicked on increment by 1
   for(var i in Product.myProducts) {
     if(event.target.alt === Product.myProducts[i].name) {
       Product.myProducts[i].votes++;
     }
   }
+
+  //if clicks exceed 25 stop showing more and show the list
   if(Product.totalClicks > 25) {
     Product.sectionEl.removeEventListener('click', Product.handleClick);
 
     Product.showList();
-    Product.updatetotalVotes();
+    Product.updateVotes();
+    
   } else {
     Product.randomProduct();
   }
