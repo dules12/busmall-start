@@ -1,24 +1,20 @@
 'use strict';
 
-//array to hold 
-
+//array to hold
 Product.myProducts = [];
-
-Product.totalClicks = 0
-
+//clicks throughout
+Product.totalClicks = 0;
+//keeps track of the products that have been displayed last
 Product.lastDisplayed = [];
-
+//hold the names of function Product
 Product.names = [];
-
-Product.votes = [];
-
-Product.sectionEl =  document.getElementById('product-section');
-
+//holds total votes throughout
+Product.totalVotes = [];
+//the section element of function Product is linked to 'product-section' in HTML
+Product.sectionEl = document.getElementById('product-section');
+//the list made in JS is linked to 'total-results' in HTML
 Product.ulEl = document.getElementById('total-results');
 
-//Product.imgElement = document.getElementById('ad-pic');
-//Product.imgElementTwo = document.getElementById('ad-pictwo');
-//Product.imgElementThree = document.getElementById('ad-picthree');
 
 function Product(name, filepath) {
   //inputs here
@@ -27,7 +23,7 @@ function Product(name, filepath) {
   this.votes = 0;
   this.timesDisplayed = 0;
   Product.myProducts.push(this.name);
-  }
+}
 
 new Product('bag','/img/bag.jpg');
 new Product('banana','img/banana.jpg');
@@ -60,38 +56,38 @@ Product.randomProduct = function() {
     var randomCenter = Math.floor(Math.random() * Product.myProducts.length);
     var randomRight = Math.floor(Math.random() * Product.myProducts.length);
 
-  } while (randomLeft === randomCenter || randomLeft === randomRight || randomCenter === randomRight 
+  } while (randomLeft === randomCenter || randomLeft === randomRight || randomCenter === randomRight
     || Product.lastDisplayed.includes(randomLeft) || Product.lastDisplayed.includes(randomCenter) || Product.lastDisplayed.includes(randomRight));
 
-Product.lastDisplayed[0] = randomLeft;
-Product.lastDisplayed[1] = randomCenter;
-Product.lastDisplayed[2] = randomRight;
+  Product.lastDisplayed[0] = randomLeft;
+  Product.lastDisplayed[1] = randomCenter;
+  Product.lastDisplayed[2] = randomRight;
 
-Product.leftEl.src = Product.myProducts[randomLeft].filepath;
-Product.leftEl.alt = Product.myProducts[randomLeft].name;
+  Product.leftEl.src = Product.myProducts[randomLeft].filepath;
+  Product.leftEl.alt = Product.myProducts[randomLeft].name;
 
-Product.centerEl.src = Product.myProducts[randomCenter].filepath;
-Product.centerEl.alt = Product.myProducts[randomCenter].name;
+  Product.centerEl.src = Product.myProducts[randomCenter].filepath;
+  Product.centerEl.alt = Product.myProducts[randomCenter].name;
 
-Product.rightEl.src = Product.myProducts[randomRight].filepath;
-Product.rightEl.src = Product.myProducts[randomRight].name;
+  Product.rightEl.src = Product.myProducts[randomRight].filepath;
+  Product.rightEl.src = Product.myProducts[randomRight].name;
 
-Product.myProducts[randomLeft].timesDisplayed++;
-Product.myProducts[randomCenter].timesDisplayed++;
-Product.myProducts[randomRight].timesDisplayed++;
+  Product.myProducts[randomLeft].timesDisplayed = Product.myProducts[randomLeft].timesDisplayed + 1;
+  Product.myProducts[randomCenter].timesDisplayed++;
+  Product.myProducts[randomRight].timesDisplayed++;
 };
 
 Product.showList = function() {
   for(var i in Product.myProducts) {
-    var liEl = document.createElement('li')
-    liEl.textContent = '${Product.myProducts[i].name} has ${Product.myProducts[i].votes} votes and was displayed ${Product.myProducts[i].timesDisplayed} times.';
+    var liEl = document.createElement('li');
+    liEl.textContent = `${Product.myProducts[i].name} 'has' ${Product.myProducts[i].votes} 'votes and was displayed' ${Product.myProducts[i].timesDisplayed} times.`;
     Product.ulEl.appendchild(liEl);
   }
 };
 
 Product.updateVotes = function() {
   for(var i in Product.myProducts) {
-    Product.totalVote[i] = Product.myProducts[i].votes;
+    Product.totalVotes[i] = Product.myProducts[i].votes;
 
     Product.names[i] = Product.myProducts[i].name;
   }
@@ -107,46 +103,16 @@ Product.handleClick = function(event) {
     }
   }
   if(Product.totalClicks > 25) {
-    
+    Product.sectionEl.removeEventListener('click', Product.handleClick);
+
     Product.showList();
     Product.updatetotalVotes();
   } else {
     Product.randomProduct();
   }
-  
- };
 
- 
+};
 
-/*Product.randomProduct = function() {
-  var randomNum = Math.random() * Product.myProducts.length;
-  var roundedDown = Math.floor(randomNum);
-  var oneProduct = Product.myProducts[roundedDown];
-  Product.imgElement.src = oneProduct.filepath;
-}
-Product.randomProductTwo = function() {
-  var randomNum = Math.random() * Product.myProducts.length;
-  var roundedDown = Math.floor(randomNum);
-  var oneProduct = Product.myProducts[roundedDown];
-  Product.imgElementTwo.src = oneProduct.filepath;
-}
-
-Product.randomProductThree = function() {
-  var randomNum = Math.random() * Product.myProducts.length;
-  var roundedDown = Math.floor(randomNum);
-  var oneProduct = Product.myProducts[roundedDown];
-  Product.imgElementThree.src = oneProduct.filepath; 
-}
-
-Product.imgElement.addEventListener('click', Product.randomProduct);
-Product.imgElementTwo.addEventListener('click', Product.randomProductTwo);
-Product.imgElementThree.addEventListener('click', Product.randomProductThree);
-
-
-
-
+Product.sectionEl.addEventListener('click', Product.handleClick);
 
 Product.randomProduct();
-Product.randomProductTwo();
-Product.randomProductThree();
-*/
