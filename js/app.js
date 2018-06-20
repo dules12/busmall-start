@@ -22,10 +22,10 @@ function Product(name, filepath) {
   this.filepath = filepath;
   this.votes = 0;
   this.timesDisplayed = 0;
-  Product.myProducts.push(this.name);
+  Product.myProducts.push(this);
 }
 
-new Product('bag','/img/bag.jpg');
+new Product('bag','img/bag.jpg');
 new Product('banana','img/banana.jpg');
 new Product('bathroom','img/bathroom.jpg');
 new Product('boots','img/boots.jpg');
@@ -36,7 +36,7 @@ new Product('cthulhu','img/cthulhu.jpg');
 new Product('dog-duck','img/dog-duck.jpg');
 new Product('dragon','img/dragon.jpg');
 new Product('pen','img/pen.jpg');
-new Product('pet-sweep','img/pet-sweeep.jpg');
+new Product('pet','img/pet.jpg');
 new Product('scissors','img/scissors.jpg');
 new Product('shark','img/shark.jpg');
 new Product('sweep','img/sweep.jpg');
@@ -65,12 +65,15 @@ Product.randomProduct = function() {
 
   Product.leftEl.src = Product.myProducts[randomLeft].filepath;
   Product.leftEl.alt = Product.myProducts[randomLeft].name;
+  console.log(Product.leftEl.src);
 
   Product.centerEl.src = Product.myProducts[randomCenter].filepath;
   Product.centerEl.alt = Product.myProducts[randomCenter].name;
+  console.log(Product.centerEl.src);
 
   Product.rightEl.src = Product.myProducts[randomRight].filepath;
-  Product.rightEl.src = Product.myProducts[randomRight].name;
+  Product.rightEl.alt = Product.myProducts[randomRight].name;
+  console.log(Product.rightEl);
 
   Product.myProducts[randomLeft].timesDisplayed = Product.myProducts[randomLeft].timesDisplayed + 1;
   Product.myProducts[randomCenter].timesDisplayed++;
