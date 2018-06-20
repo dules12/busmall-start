@@ -3,17 +3,17 @@
 //array to hold
 Product.myProducts = [];
 //clicks throughout
-Product.totalClicks = 0;
+var totalClicks = 0;
 //keeps track of the products that have been displayed last
-Product.lastDisplayed = [];
+var lastDisplayed = [];
 //hold the names of function Product
-Product.names = [];
+var names = [];
 //holds total votes throughout
-Product.totalVotes = [];
+var totalVotes = [];
 //the section element of function Product is linked to 'product-section' in HTML
-Product.sectionEl = document.getElementById('product-section');
+var sectionEl = document.getElementById('product-section');
 //the list made in JS is linked to 'total-results' in HTML
-Product.ulEl = document.getElementById('total-results');
+var ulEl = document.getElementById('total-results');
 
 
 function Product(name, filepath) {
@@ -63,12 +63,12 @@ Product.randomProduct = function() {
 
     //excludes an image to be chosen that was just selected or is a repeat of any others on the page
   } while (randomLeft === randomCenter || randomLeft === randomRight || randomCenter === randomRight
-    || Product.lastDisplayed.includes(randomLeft) || Product.lastDisplayed.includes(randomCenter) || Product.lastDisplayed.includes(randomRight));
+    || lastDisplayed.includes(randomLeft) || lastDisplayed.includes(randomCenter) || lastDisplayed.includes(randomRight));
 
   //attaching random left, center and right to last displayed
-  Product.lastDisplayed[0] = randomLeft;
-  Product.lastDisplayed[1] = randomCenter;
-  Product.lastDisplayed[2] = randomRight;
+  lastDisplayed[0] = randomLeft;
+  lastDisplayed[1] = randomCenter;
+  lastDisplayed[2] = randomRight;
   //attaching filepaths and names to the left, cener and right images
   Product.leftEl.src = Product.myProducts[randomLeft].filepath;
   Product.leftEl.alt = Product.myProducts[randomLeft].name;
@@ -86,9 +86,9 @@ Product.randomProduct = function() {
   Product.myProducts[randomLeft].timesDisplayed++;
   Product.myProducts[randomCenter].timesDisplayed++;
   Product.myProducts[randomRight].timesDisplayed++;
-console.log(Product.myProducts[randomLeft]);
-console.log(Product.myProducts[randomCenter]);
-console.log(Product.myProducts[randomRight]);
+  console.log(Product.myProducts[randomLeft]);
+  console.log(Product.myProducts[randomCenter]);
+  console.log(Product.myProducts[randomRight]);
 };
 
 
@@ -98,7 +98,7 @@ Product.showList = function() {
   for(var i in Product.myProducts) {
     var liEl = document.createElement('li');
     liEl.textContent = `${Product.myProducts[i].name} has ${Product.myProducts[i].votes} votes and was displayed ${Product.myProducts[i].timesDisplayed} times.`;
-    Product.ulEl.appendChild(liEl);
+    ulEl.appendChild(liEl);
     console.log(Product.showList);
   }
 };
@@ -106,16 +106,16 @@ Product.showList = function() {
 //number of total votes is a function of the number of times a product appears and is voted on
 Product.updateVotes = function() {
   for(var i in Product.myProducts) {
-    Product.totalVotes[i] = Product.myProducts[i].votes;
+    totalVotes[i] = Product.myProducts[i].votes;
 
-    Product.names[i] = Product.myProducts[i].name;
+    names[i] = Product.myProducts[i].name;
   }
 };
 
 //handleClick is created within Product as a function of total clicks as they increase
 Product.handleClick = function(event) {
-  Product.totalClicks++;
-  console.log(Product.totalClicks);
+  totalClicks++;
+  console.log(totalClicks);
 
   //If the specific product is clicked on increment by 1
   for(var i in Product.myProducts) {
@@ -124,19 +124,27 @@ Product.handleClick = function(event) {
     }
   }
 
-  //if clicks exceed 25 stop showing more and show the list
-  if(Product.totalClicks > 25) {
-    Product.sectionEl.removeEventListener('click', Product.handleClick);
+  //function used to hide pictures when it hits 25 clicks
+  Product.hidePics = function() {
+    sectionEl.classList.add('hidden');
 
+
+  };
+
+
+  //if clicks exceed 25 stop showing more and show the list
+  if(totalClicks > 25) {
+    sectionEl.removeEventListener('click', Product.handleClick);
+    Product.hidePics();
     Product.showList();
     Product.updateVotes();
-    
+
   } else {
     Product.randomProduct();
   }
 
 };
 
-Product.sectionEl.addEventListener('click', Product.handleClick);
+sectionEl.addEventListener('click', Product.handleClick);
 
 Product.randomProduct();
