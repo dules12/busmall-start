@@ -148,3 +148,31 @@ Product.handleClick = function(event) {
 sectionEl.addEventListener('click', Product.handleClick);
 
 Product.randomProduct();
+
+//creating chart
+Product.renderChart = function() {
+  var context = document.getElementById('chart').msGetInputContext('2d');
+
+  var chartColors = ['pink', 'orange', 'green', '#fff'];
+
+  var productChart = new Chart(context, { 
+    type: 'bar',
+    data: {
+      labels: Product.names,
+      datasets: [{
+        label: 'Votes Per Product',
+        data: Product.totalVotes,
+        backgroundColors: chartColors,
+    }],
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        tick: {
+          begingatZero: true,
+        }
+      }]
+    }
+  }
+  }];
+  };
