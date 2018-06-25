@@ -163,7 +163,7 @@ Product.renderChart = function() {
         label: 'Votes Per Product',
         data: Product.totalVotes,
         backgroundColors: [
-          'rgba(236, 109, 132, 0.4)',
+          'rgba(236, 129, 132, 0.4)',
           'rgba(44, 162, 235, 0.2)',
         ],
         borderColor: [
