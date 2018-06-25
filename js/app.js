@@ -27,7 +27,7 @@ function Product(name, filepath) {
   Product.myProducts.push(this);
 }
 
-//New products createe with name and filepath
+//New products createe with name and filepath`
 new Product('bag','img/bag.jpg');
 new Product('banana','img/banana.jpg');
 new Product('bathroom','img/bathroom.jpg');
@@ -138,6 +138,7 @@ Product.handleClick = function(event) {
     Product.hidePics();
     Product.showList();
     Product.updateVotes();
+    Product.renderChart();
 
   } else {
     Product.randomProduct();
@@ -146,33 +147,40 @@ Product.handleClick = function(event) {
 };
 
 sectionEl.addEventListener('click', Product.handleClick);
-
 Product.randomProduct();
 
 //creating chart
 Product.renderChart = function() {
-  var context = document.getElementById('chart').msGetInputContext('2d');
+  var context = document.getElementById('Mychart').getContext('2d');
 
-  var chartColors = ['pink', 'orange', 'green', '#fff'];
 
-  var productChart = new Chart(context, { 
+
+  var Mychart = new Chart(context, {
     type: 'bar',
-    data: {
+    data : {
       labels: Product.names,
       datasets: [{
         label: 'Votes Per Product',
         data: Product.totalVotes,
-        backgroundColors: chartColors,
-    }],
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        tick: {
-          begingatZero: true,
-        }
+        backgroundColors: [
+          'rgba(236, 129, 132, 0.4)',
+          'rgba(44, 162, 235, 0.2)',
+        ],
+        borderColor: [
+          'rgba(225,109,129,1)',
+          'rgba(24, 162, 235, 1)',
+        ],
+        borderWidth: 1
       }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          tick: {
+            beginAtZero: true,
+          }
+        }]
+      }
     }
-  }
-  }];
-  };
+  });
+};
